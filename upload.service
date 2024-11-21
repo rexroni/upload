@@ -1,0 +1,18 @@
+[Unit]
+Description=A personal upload server
+After=network.target network-online.target nss-lookup.target
+
+[Service]
+User=upload
+Group=upload
+RuntimeDirectory=upload
+# we added --fork mode for a no-python-dependency alternative to notify
+Type=forking
+PIDFile=/run/upload/pid
+SyslogLevel=err
+NoNewPrivileges=yes
+ExecStart=/usr/local/bin/upload.py --fork --port 3030
+# limit service to a week, so you can't forget
+RuntimeMaxSec=604800
+
+# no Install because you can only manually start it
